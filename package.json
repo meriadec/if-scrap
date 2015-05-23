@@ -1,0 +1,14 @@
+{
+  "name": "scrap-institut",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "meriadec <meriadec.pillet@gmail.com>",
+  "license": "BSD",
+  "dependencies": {
+    "async": "^1.0.0",
+    "chalk": "^1.0.0",
+    "lodash": "^3.9.1",
+    "nightmare": "^1.8.1"
+  }
+}
