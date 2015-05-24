@@ -39,7 +39,7 @@ async.mapSeries(IF_ids, function (id, done) {
 }, function (err, res) {
   if (err) { return console.log(err); }
   fs.writeFile('out.json', JSON.stringify(res, null, 2));
-  fs.writeFile('out.csv', buildCSV(res))
+  fs.writeFile('out.csv', buildCSV(res));
 });
 
 // Scrap the page
@@ -72,7 +72,7 @@ function scrap () {
 
   var labelMap = {
     'site internet': 'site',
-    'blog': 'site',
+    blog: 'site',
     'page facebook': 'facebook',
     'compte twitter': 'twitter',
     'facebook if cracovie': 'facebook',
@@ -81,7 +81,7 @@ function scrap () {
     'site internet de l\'institut français à hanoï': 'site',
     'site internet du consulat général': 'site',
     'site internet en construction': 'site',
-    'internet': 'site'
+    internet: 'site'
   };
 
   var labelFilter = ['site', 'facebook', 'twitter'];
