@@ -24,7 +24,7 @@ const URL = 'http://www.ifmapp.institutfrancais.com/les-if-dans-le-monde';
 
 async.mapSeries(IF_ids, function (id, done) {
 
-  console.log(chalk.magenta('> ' + (IF_ids.indexOf(id)) + '/' + IF_ids.length));
+  console.log(chalk.magenta('> ' + (IF_ids.indexOf(id) + 1) + '/' + IF_ids.length));
 
   var infos = { url: URL + '#f2_' + id };
 
@@ -39,6 +39,7 @@ async.mapSeries(IF_ids, function (id, done) {
 }, function (err, res) {
   if (err) { return console.log(err); }
   fs.writeFile('out.json', JSON.stringify(res, null, 2));
+  fs.writeFile('out.csv', buildCSV(res))
 });
 
 // Scrap the page
@@ -47,9 +48,9 @@ function scrap () {
 
   var infos = {};
 
-  // get title
-  infos.title = $('.edit_lieu_titre').html();
-  if (!infos.title) { infos.title = '[?]'; }
+  // get name
+  infos.name = $('.edit_lieu_titre').html();
+  if (!infos.name) { infos.title = '[?]'; }
 
   // get country
   infos.country = $('.edit_selectm_59 .valeurs').html();
@@ -74,15 +75,46 @@ function scrap () {
 
   var labelMap = {
     'site internet': 'site',
-    'daily motion': 'dailymotion',
-    'you tube': 'youtube'
+    'blog': 'site',
+    'page facebook': 'facebook',
+    'compte twitter': 'twitter',
+    'facebook if cracovie': 'facebook',
+    'facebook if varsovie': 'facebook',
+    'site internet de l\'ambassade': 'site',
+    'site internet de l\'institut français à hanoï': 'site',
+    'site internet du consulat général': 'site',
+    'site internet en construction': 'site',
+    'internet': 'site'
   };
+
+  var labelFilter = ['site', 'facebook', 'twitter'];
 
   Array.prototype.forEach.call(links, function (link) {
     link = $(link);
     var label = link.html().toLowerCase().trim();
     if (labelMap[label]) { label = labelMap[label]; }
+    if (labelFilter.indexOf(label) === -1) { return; }
     infos[label] = link.attr('href');
   });
+
   return infos;
+
+}
+
+// Generate csv from results
+
+function buildCSV (res) {
+  var out = [];
+  out.push(['NAME', 'COUNTRY', 'PHONE', 'SITE', 'TWITTER', 'FACEBOOK', 'REF_URL']);
+  res.forEach(e => {
+    out.push([
+      e.name || '',
+      e.country || '',
+      e.site || '',
+      e.twitter || '',
+      e.facebook || '',
+      e.url || ''
+    ]);
+  });
+  return out.map(row => '"' + row.join('","') + '"').join('\n');
 }
