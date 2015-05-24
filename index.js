@@ -110,6 +110,7 @@ function buildCSV (res) {
     out.push([
       e.name || '',
       e.country || '',
+      e.phone || '',
       e.site || '',
       e.twitter || '',
       e.facebook || '',
