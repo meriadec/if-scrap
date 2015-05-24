@@ -49,16 +49,13 @@ function scrap () {
   var infos = {};
 
   // get name
-  infos.name = $('.edit_lieu_titre').html();
-  if (!infos.name) { infos.title = '[?]'; }
+  infos.name = $('.edit_lieu_titre').html() || '';
 
   // get country
-  infos.country = $('.edit_selectm_59 .valeurs').html();
-  if (!infos.country) { infos.country = '[?]'; }
+  infos.country = $('.edit_selectm_59 .valeurs').html() || '';
 
   // get phone
-  infos.phone = $('.edit_lieu_tel').html();
-  if (!infos.phone) { infos.phone = '[?]'; }
+  infos.phone = $('.edit_lieu_tel').html() || '';
 
   // get email if exists
   var infolines = $('#onglet_1 .infoline');
