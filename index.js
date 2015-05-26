@@ -102,11 +102,12 @@ function scrap () {
 
 function buildCSV (res) {
   var out = [];
-  out.push(['NAME', 'COUNTRY', 'PHONE', 'SITE', 'TWITTER', 'FACEBOOK', 'REF_URL']);
+  out.push(['NAME', 'COUNTRY', 'EMAIL', 'PHONE', 'SITE', 'TWITTER', 'FACEBOOK', 'REF_URL']);
   res.forEach(e => {
     out.push([
       e.name || '',
       e.country || '',
+      e.email || '',
       e.phone || '',
       e.site || '',
       e.twitter || '',
